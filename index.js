@@ -49,16 +49,16 @@ async function run() {
       const query = { _id: new ObjectId(req.params.id) };
       const data = {
         $set: {
-          spotName: req.body.spotName,
-          countryName: req.body.countryName,
+          spot_name: req.body.spotName,
+          country_name: req.body.countryName,
           location: req.body.location,
-          description: req.body.description,
-          cost: req.body.cost,
+          short_description: req.body.description,
+          average_cost: req.body.cost,
           seasonality: req.body.seasonality,
-          time: req.body.time,
-          totalVisitor: req.body.totalVisitor,
-          email: req.body.email,
-          name: req.body.name,
+          travel_time: req.body.time,
+          totalVisitors: req.body.totalVisitor,
+          user_email: req.body.email,
+          user_name: req.body.name,
           image: req.body.image,
         },
       };
