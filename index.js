@@ -1,5 +1,5 @@
 const express = require("express");
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const cors = require("cors");
 const app = express();
 const port = process.env.PORT || 5000;
@@ -33,7 +33,37 @@ async function run() {
 
     app.get("/addTouristSpot", async (req, res) => {
       const result = await spotCollection.find().toArray();
+      res.send(result);
+    });
 
+    // get for update
+    app.get("/addTouristSpot/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await spotCollection.findOne(query);
+      res.send(result);
+    });
+
+    app.put("/addTouristSpot/:id", async (req, res) => {
+      console.log(req.params.id);
+      const query = { _id: new ObjectId(req.params.id) };
+      const data = {
+        $set: {
+          spotName: req.body.spotName,
+          countryName: req.body.countryName,
+          location: req.body.location,
+          description: req.body.description,
+          cost: req.body.cost,
+          seasonality: req.body.seasonality,
+          time: req.body.time,
+          totalVisitor: req.body.totalVisitor,
+          email: req.body.email,
+          name: req.body.name,
+          image: req.body.image,
+        },
+      };
+      const result = await spotCollection.updateOne(query, data);
+      console.log(result);
       res.send(result);
     });
 
@@ -47,7 +77,14 @@ async function run() {
       // console.log(result);
       res.send(result);
     });
+    // delete
 
+    app.delete("/addTouristSpot/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await spotCollection.deleteOne(query);
+      res.send(result);
+    });
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
     );
