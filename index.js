@@ -45,31 +45,58 @@ async function run() {
       const result = await spotCollection.findOne(query);
       res.send(result);
     });
+    // app.get("/myList", async (req, res) => {
+    //   const result = await spotCollection.find().toArray();
+    //   res.send(result);
+    // });
+    // app.get("/myList/:id", async (req, res) => {
+    //   const id = req.params.id;
+    //   const query = { _id: new ObjectId(id) };
+    //   const result = await spotCollection.findOne(query);
+    //   res.send(result);
+    // });
 
     app.put("/addTouristSpot/:id", async (req, res) => {
       console.log(req.params.id);
-      const query = { _id: new ObjectId(req.params.id) };
+
+      const id = req.params.id;
+
+      const query = { _id: new ObjectId(id) };
+
+      console.log(query);
       const data = {
         $set: {
-          spot_name: req.body.spotName,
-          country_name: req.body.countryName,
+          spot_name: req.body.spot_name,
+          country_name: req.body.country_name,
           location: req.body.location,
-          short_description: req.body.description,
-          average_cost: req.body.cost,
+          short_description: req.body.short_description,
+          average_cost: req.body.average_cost,
           seasonality: req.body.seasonality,
-          travel_time: req.body.time,
-          totalVisitors: req.body.totalVisitor,
-          user_email: req.body.email,
-          user_name: req.body.name,
+          travel_time: req.body.travel_time,
+          totalVisitors: req.body.totalVisitors,
+          user_email: req.body.user_email,
+          user_name: req.body.user_name,
           image: req.body.image,
         },
       };
+      console.log(data);
       const result = await spotCollection.updateOne(query, data);
       console.log(result);
       res.send(result);
     });
 
     // create
+
+    app.get("/addTouristSpot", async (req, res) => {
+      console.log(req.query);
+      let query = {};
+      if (req.query?.email) {
+        query = { email: req.query.email };
+      }
+      const result = await spotCollection.find().toArray();
+      console.log(result);
+      res.send(result);
+    });
 
     app.post("/addTouristSpot", async (req, res) => {
       const newSpot = req.body;
@@ -87,6 +114,13 @@ async function run() {
       const result = await spotCollection.deleteOne(query);
       res.send(result);
     });
+    // app.delete("/myList/:id", async (req, res) => {
+    //   const id = req.params.id;
+    //   const query = { _id: new ObjectId(id) };
+    //   const result = await spotCollection.deleteOne(query);
+    //   res.send(result);
+    // });
+
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
     );
@@ -103,3 +137,5 @@ app.get("/", (req, res) => {
 app.listen(port, () => {
   console.log(`Tourist server is running on ${port}`);
 });
+
+// https://b9a10-server-side-coral.vercel.app
