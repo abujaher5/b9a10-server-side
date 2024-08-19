@@ -7,7 +7,12 @@ const port = process.env.PORT || 5000;
 
 //middleware
 app.use(
-  cors({ origin: ["http://localhost:5173", "https://go-for-visit.web.app"] })
+  cors({
+    origin: [
+      "https://go-for-visit.web.app",
+      "https://go-for-visit.firebaseapp.com",
+    ],
+  })
 );
 app.use(express.json());
 
@@ -137,5 +142,3 @@ app.get("/", (req, res) => {
 app.listen(port, () => {
   console.log(`Tourist server is running on ${port}`);
 });
-
-// https://b9a10-server-side-coral.vercel.app
